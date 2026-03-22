@@ -8,20 +8,20 @@ LocoAgente is a research project investigating whether small language models (3-
 
 ---
 
-### Getting Started
+### Background
 
-Understand the project's goals, research questions, and design.
+Understand the concepts and the project's motivation.
 
-[Why LocoAgente](/docs/why-locoagente/) · [FAQ](/docs/faq/) · [Meet the Lab](https://locolabo.org)
+[Why LocoAgente](why-locoagente) · [What Are Agents?](what-are-agents) · [Agentic Drift](agentic-drift) · [Scaffolding Strategies](scaffolding-strategies)
 
-### Research Tracks
+### Research
 
-The three lines of investigation.
+The four tracks and the overall plan.
 
-[Track A: Local Autoresearch](/docs/track-a-autoresearch/) · [Track B: Task Agents](/docs/track-b-task-agents/) · [Track C: Scaffolding](/docs/track-c-scaffolding/)
+[Research Plan](research-plan) · [Track A: Autoresearch](track-a-autoresearch) · [Track B: Task Agents](track-b-task-agents) · [Track C: Scaffolding](track-c-scaffolding) · [Track D: Framework Eval](track-d-framework-eval)
 
 ### Reference
 
-Architecture, experiment design, and decisions.
+Working notes and decisions.
 
-[Architecture](/docs/architecture/) · [Experiment Harness](/docs/experiment-harness/)
+[Future Work](future-work) · [Meet the Lab](https://locolabo.org)
