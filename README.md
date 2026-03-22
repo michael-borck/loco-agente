@@ -1,7 +1,7 @@
 # LocoAgente
 
 <!-- BADGES:START -->
-[![agentic](https://img.shields.io/badge/-agentic-blue?style=flat-square)](https://github.com/topics/agentic) [![consumer-hardware](https://img.shields.io/badge/-consumer--hardware-blue?style=flat-square)](https://github.com/topics/consumer-hardware) [![lora-adapters](https://img.shields.io/badge/-lora--adapters-blue?style=flat-square)](https://github.com/topics/lora-adapters) [![language-model](https://img.shields.io/badge/-language--model-blue?style=flat-square)](https://github.com/topics/language-model) [![python](https://img.shields.io/badge/-python-3776ab?style=flat-square)](https://github.com/topics/python) [![research](https://img.shields.io/badge/-research-blue?style=flat-square)](https://github.com/topics/research) [![scaffolding](https://img.shields.io/badge/-scaffolding-blue?style=flat-square)](https://github.com/topics/scaffolding)
+[![agentic](https://img.shields.io/badge/-agentic-blue?style=flat-square)](https://github.com/topics/agentic) [![consumer-hardware](https://img.shields.io/badge/-consumer--hardware-blue?style=flat-square)](https://github.com/topics/consumer-hardware) [![framework-evaluation](https://img.shields.io/badge/-framework--evaluation-blue?style=flat-square)](https://github.com/topics/framework-evaluation) [![language-model](https://img.shields.io/badge/-language--model-blue?style=flat-square)](https://github.com/topics/language-model) [![python](https://img.shields.io/badge/-python-3776ab?style=flat-square)](https://github.com/topics/python) [![research](https://img.shields.io/badge/-research-blue?style=flat-square)](https://github.com/topics/research) [![scaffolding](https://img.shields.io/badge/-scaffolding-blue?style=flat-square)](https://github.com/topics/scaffolding)
 <!-- BADGES:END -->
 
 ### Local Agentic AI -- Can Small Models Think in Loops?
@@ -86,6 +86,30 @@ The systematic study of what scaffolding strategies most improve small-model age
 
 This is the most publishable track — it connects to the [Cognitive Strategy Transfer](https://locolabo.org) research programme and the [keep-asking](https://locolabo.org) nudge research.
 
+### Track D: Framework Evaluation
+
+Most comparisons between agentic frameworks are conducted on frontier models, where the overhead of any given framework is negligible. With SLMs, every token in the context window matters. LocoAgente asks whether framework choice meaningfully affects small-model agent performance.
+
+**The central hypothesis**: minimalist orchestrators (NanoClaw-style, hand-rolled loops) outperform full-featured frameworks (LangGraph, CrewAI) with local models because they produce smaller, tighter system prompts and fewer injected tokens per loop iteration. If true, the implication is that SLM agent deployments should lean toward minimal scaffolding rather than adopting frameworks designed for frontier models.
+
+**Evaluation dimensions:**
+
+- **Context bloat**: tokens injected per loop iteration by the framework vs a minimal hand-rolled loop
+- **Tool-call accuracy**: does prompt inflation from framework boilerplate hurt tool selection?
+- **Drift rate**: how quickly does the agent lose goal coherence across turns under each framework?
+- **Failure modes**: do framework-managed agents fail differently than minimalist agents?
+
+**Experiment matrix:**
+
+| Framework | Overhead | What We Learn |
+|---|---|---|
+| Hand-rolled loop (baseline) | Minimal | Lower bound on prompt bloat |
+| NanoClaw | Low | Does a principled minimal framework match hand-rolled? |
+| LangGraph | Medium | Does structured graph orchestration help or hurt SLMs? |
+| CrewAI | High | Does multi-agent role framing help or hurt SLMs? |
+
+Results from Track D feed directly into LocoBench as a benchmarking methodology for agentic framework comparison at the sub-7B scale.
+
 ## How It Works
 
 ```
@@ -150,7 +174,8 @@ loco-agente/
 ├── experiments/
 │   ├── autoresearch/               # Track A experiments
 │   ├── task-agents/                # Track B experiments
-│   └── scaffolding/               # Track C experiments
+│   ├── scaffolding/               # Track C experiments
+│   └── framework-eval/             # Track D experiments
 ├── scripts/
 │   ├── run_experiment.py           # Run a single experiment
 │   └── compare_results.py         # Compare experiment outcomes
