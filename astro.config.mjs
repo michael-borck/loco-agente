@@ -22,25 +22,28 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       sidebar: [
         {
-          label: 'Getting Started',
+          label: 'Background',
           items: [
             { label: 'Why LocoAgente', slug: 'why-locoagente' },
-            { label: 'FAQ', slug: 'faq' },
+            { label: 'What Are Agents?', slug: 'what-are-agents' },
+            { label: 'Agentic Drift', slug: 'agentic-drift' },
+            { label: 'Scaffolding Strategies', slug: 'scaffolding-strategies' },
           ],
         },
         {
-          label: 'Research Tracks',
+          label: 'Research',
           items: [
+            { label: 'Research Plan', slug: 'research-plan' },
             { label: 'Track A: Autoresearch', slug: 'track-a-autoresearch' },
             { label: 'Track B: Task Agents', slug: 'track-b-task-agents' },
             { label: 'Track C: Scaffolding', slug: 'track-c-scaffolding' },
+            { label: 'Track D: Framework Eval', slug: 'track-d-framework-eval' },
           ],
         },
         {
           label: 'Reference',
           items: [
-            { label: 'Architecture', slug: 'architecture' },
-            { label: 'Experiment Harness', slug: 'experiment-harness' },
+            { label: 'Future Work', slug: 'future-work' },
           ],
         },
       ],
