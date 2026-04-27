@@ -1,0 +1,35 @@
+---
+title: LocoAgente
+description: Can small models think in loops? Agentic scaffolding for 3–4B models on consumer hardware.
+template: splash
+hero:
+  tagline: Can small models think in loops?
+  image:
+    file: ../../assets/robot.svg
+  actions:
+    - text: Why LocoAgente
+      link: /docs/why-locoagente/
+      icon: right-arrow
+      variant: primary
+    - text: Research Plan
+      link: /docs/research-plan/
+      icon: external
+      variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+  <Card title="Track A: Autoresearch" icon="document">
+    Can a small model autonomously search, read, and synthesise sources into a structured research output — without human intervention at each step?
+  </Card>
+  <Card title="Track B: Task agents" icon="approve-check">
+    Structured multi-step task completion: planning, tool use, error recovery. How far can a 4B model go before scaffolding fails to compensate?
+  </Card>
+  <Card title="Track C: Scaffolding strategies" icon="puzzle">
+    Systematic comparison of prompting, memory, tool access, and loop design. Which scaffolding choices matter most for small-model agentic reliability?
+  </Card>
+  <Card title="Track D: Framework evaluation" icon="bars">
+    Head-to-head comparison of agentic frameworks (LangChain, LlamaIndex, smolagents, custom) on identical tasks with identical models.
+  </Card>
+</CardGrid>
