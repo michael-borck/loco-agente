@@ -101,3 +101,41 @@ def test_synthesise_command_writes_trace_with_corpus(
     trace = json.loads(output_path.read_text())
     assert trace["pattern"] == "SynthesisPattern"
     assert len(trace["rounds"][0]["variants"]) == 2
+
+
+from harness.conversation import Conversation, Round, UserDecision
+from harness.core import Uncertainty, Variant
+
+
+def test_log_command_summarises_trace(tmp_path: Path) -> None:
+    v = Variant(
+        text="answer",
+        rationale="why",
+        uncertainty=Uncertainty(
+            confidence=0.7,
+            flags=["a flag"],
+            verification_hooks=["check X"],
+        ),
+        metadata={"frame_name": "ceo", "run_id": "r1"},
+    )
+    conv = Conversation(
+        run_id="r1",
+        brief="test brief",
+        pattern="DebatePattern",
+        profile="business",
+        rounds=[Round(round_index=0, variants=[v])],
+        user_decisions=[
+            UserDecision(event="pick", variant_index=0, round_index=0)
+        ],
+    )
+    trace_path = tmp_path / "trace.json"
+    trace_path.write_text(conv.to_json())
+
+    runner = CliRunner()
+    result = runner.invoke(main, ["log", "--trace", str(trace_path)])
+
+    assert result.exit_code == 0, result.output
+    assert "DebatePattern" in result.output
+    assert "test brief" in result.output
+    assert "ceo" in result.output
+    assert "check X" in result.output
