@@ -184,3 +184,46 @@ class DisciplineFrames:
                 PromptSpec(text=text, frame_name=discipline, sampling_params={})
             )
         return specs
+
+
+@dataclass
+class ConstraintInversion:
+    """Generate variants by deliberately inverting one constraint each.
+
+    Surfaces which constraints are load-bearing by showing what happens when
+    each is flipped. Useful for design reviews and assumption-testing.
+    """
+
+    constraints_to_flip: list[str]
+
+    def generate_prompt_specs(
+        self,
+        *,
+        base_prompt: str,
+        n: int,
+        rules: list[str],
+    ) -> list[PromptSpec]:
+        if n != len(self.constraints_to_flip):
+            raise ValueError(
+                f"n must equal the number of constraints; got n={n}, "
+                f"constraints={len(self.constraints_to_flip)}"
+            )
+        specs: list[PromptSpec] = []
+        for constraint in self.constraints_to_flip:
+            personality = (
+                f"For this response, deliberately invert the following "
+                f"assumption from the brief: '{constraint}'. "
+                f"Reason as if the opposite were true. Surface what changes "
+                f"in the recommendation when this constraint is flipped."
+            )
+            text = _compose_prompt(
+                personality=personality, rules=rules, base_prompt=base_prompt
+            )
+            specs.append(
+                PromptSpec(
+                    text=text,
+                    frame_name=f"flipped: {constraint}",
+                    sampling_params={},
+                )
+            )
+        return specs

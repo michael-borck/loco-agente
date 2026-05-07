@@ -104,3 +104,38 @@ def test_discipline_frames_n_must_match_discipline_count() -> None:
     strategy = DisciplineFrames(disciplines=["x", "y"])
     with pytest.raises(ValueError, match="n must equal"):
         strategy.generate_prompt_specs(base_prompt="x", n=3, rules=[])
+
+
+from harness.frames import ConstraintInversion
+
+
+def test_constraint_inversion_emits_one_prompt_per_constraint() -> None:
+    strategy = ConstraintInversion(
+        constraints_to_flip=[
+            "the timeline is fixed",
+            "the budget cannot increase",
+            "the team size is fixed",
+        ]
+    )
+    specs = strategy.generate_prompt_specs(
+        base_prompt="Plan the project launch",
+        n=3,
+        rules=[],
+    )
+
+    assert len(specs) == 3
+    assert {s.frame_name for s in specs} == {
+        "flipped: the timeline is fixed",
+        "flipped: the budget cannot increase",
+        "flipped: the team size is fixed",
+    }
+    for spec in specs:
+        constraint_clause = spec.frame_name.removeprefix("flipped: ")
+        assert constraint_clause in spec.text
+        assert "Plan the project launch" in spec.text
+
+
+def test_constraint_inversion_n_must_match_constraint_count() -> None:
+    strategy = ConstraintInversion(constraints_to_flip=["a", "b"])
+    with pytest.raises(ValueError, match="n must equal"):
+        strategy.generate_prompt_specs(base_prompt="x", n=3, rules=[])
