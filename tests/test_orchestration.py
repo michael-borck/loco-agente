@@ -194,3 +194,50 @@ def test_synthesis_pattern_corpus_paths_appended_to_brief(
     assert "Queueing under uncertainty" in operations_call["prompt"]
     assert "study idea" in biology_call["prompt"]
     assert "Cellular automata in metabolism" not in operations_call["prompt"]
+
+
+from harness.orchestration.iterative import IterativeRefinement
+
+
+def test_iterative_refinement_runs_critique_then_revise(
+    tmp_profile: Path,
+) -> None:
+    # Cycle: initial 2 variants → critique appended → 2 revised variants
+    responses = _build_round_responses(n_frames=2, n_rounds=2)
+    fake = FakeInferenceClient(responses=responses)
+    pattern = IterativeRefinement(
+        frame_strategy=IdentityFrames(
+            frames=["ceo", "legal"], profile_root=tmp_profile
+        ),
+        n=2,
+        max_iterations=2,
+        critique_fn=lambda variants: "User says: be more specific",
+        rule_names=[],
+    )
+
+    conv = pattern.run(brief="x", client=fake, profile_name="test")
+
+    assert conv.pattern == "IterativeRefinement"
+    assert len(conv.rounds) == 2
+    # Round 2's prompts must reference the critique
+    round2_call = fake.calls[2]
+    assert "be more specific" in round2_call["prompt"]
+
+
+def test_iterative_refinement_stops_at_max_iterations(
+    tmp_profile: Path,
+) -> None:
+    responses = _build_round_responses(n_frames=2, n_rounds=3)
+    fake = FakeInferenceClient(responses=responses)
+    pattern = IterativeRefinement(
+        frame_strategy=IdentityFrames(
+            frames=["ceo", "legal"], profile_root=tmp_profile
+        ),
+        n=2,
+        max_iterations=3,
+        critique_fn=lambda variants: "more",
+        rule_names=[],
+    )
+
+    conv = pattern.run(brief="x", client=fake, profile_name="test")
+    assert len(conv.rounds) == 3
