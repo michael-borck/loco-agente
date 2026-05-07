@@ -129,3 +129,68 @@ def test_debate_pattern_rejects_zero_or_negative_rounds(tmp_profile: Path) -> No
             rounds=0,
             rule_names=[],
         )
+
+
+from harness.frames import DisciplineFrames
+from harness.orchestration.synthesis import SynthesisPattern
+
+
+def test_synthesis_pattern_produces_one_round_per_discipline(
+    tmp_profile: Path,
+) -> None:
+    # SynthesisPattern calls generate_variants once per discipline with n=2
+    # (two angles per discipline). 3 disciplines × 2 angles = 6 inference calls.
+    responses = _build_round_responses(n_frames=3, n_rounds=2)
+    fake = FakeInferenceClient(responses=responses)
+    pattern = SynthesisPattern(
+        frame_strategy=DisciplineFrames(
+            disciplines=["biology", "operations", "history"]
+        ),
+        n=3,
+        rule_names=[],
+    )
+
+    conv = pattern.run(brief="reduce supply failures", client=fake, profile_name="academic")
+
+    assert conv.pattern == "SynthesisPattern"
+    assert len(conv.rounds) == 1
+    assert len(conv.rounds[0].variants) == 3
+    frames_seen = {v.metadata["frame_name"] for v in conv.rounds[0].variants}
+    assert frames_seen == {"biology", "operations", "history"}
+
+
+def test_synthesis_pattern_corpus_paths_appended_to_brief(
+    tmp_profile: Path, tmp_path: Path
+) -> None:
+    """When a corpus is provided, file contents per discipline are appended to that discipline's prompt."""
+    corpus = tmp_path / "papers"
+    bio = corpus / "biology"
+    ops = corpus / "operations"
+    bio.mkdir(parents=True)
+    ops.mkdir(parents=True)
+    (bio / "paper1.md").write_text(
+        "Title: Cellular automata in metabolism\nAbstract: foo"
+    )
+    (ops / "paper1.md").write_text(
+        "Title: Queueing under uncertainty\nAbstract: bar"
+    )
+
+    responses = _build_round_responses(n_frames=2, n_rounds=2)  # 4 responses for 2 disciplines × 2 angles
+    fake = FakeInferenceClient(responses=responses)
+    pattern = SynthesisPattern(
+        frame_strategy=DisciplineFrames(disciplines=["biology", "operations"]),
+        n=2,
+        rule_names=[],
+        corpus_root=corpus,
+    )
+
+    pattern.run(brief="study idea", client=fake, profile_name="academic")
+
+    # Each discipline triggers 2 inference calls (primary + alternate angles).
+    # First two calls are biology; next two are operations.
+    biology_call = fake.calls[0]
+    operations_call = fake.calls[2]
+    assert "Cellular automata in metabolism" in biology_call["prompt"]
+    assert "Queueing under uncertainty" in operations_call["prompt"]
+    assert "study idea" in biology_call["prompt"]
+    assert "Cellular automata in metabolism" not in operations_call["prompt"]
