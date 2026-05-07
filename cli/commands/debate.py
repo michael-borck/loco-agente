@@ -2,14 +2,28 @@
 from __future__ import annotations
 
 import os
+import subprocess
 from pathlib import Path
 
 import click
 
+from harness import __version__ as harness_version
 from harness.context.bundle import load_bundle
 from harness.frames import IdentityFrames
 from harness.inference.client import InferenceClient, OpenAICompatibleClient
 from harness.orchestration.debate import DebatePattern
+
+
+def _git_sha(path: Path) -> str | None:
+    """Return the short git SHA at <path>, or None if not a git repo."""
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(path), "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, check=True, timeout=5,
+        )
+        return result.stdout.strip()
+    except (subprocess.SubprocessError, FileNotFoundError):
+        return None
 
 
 def build_inference_client() -> InferenceClient:
@@ -89,6 +103,12 @@ def debate(
         profile_name=profile_name,
         context=bundle,
     )
+    conv.metadata.update({
+        "harness_version": harness_version,
+        "model": os.environ.get("LOCOAGENTE_MODEL", "qwen3:4b"),
+        "base_url": os.environ.get("LOCOAGENTE_BASE_URL", "http://localhost:11434/v1"),
+        "profile_git_sha": _git_sha(profile_root),
+    })
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(conv.to_json())
     click.echo(f"Wrote trace to {output}")

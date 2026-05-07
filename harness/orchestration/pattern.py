@@ -1,10 +1,13 @@
 """OrchestrationPattern — the protocol every pattern implements."""
 from __future__ import annotations
 
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
 from harness.conversation import Conversation
 from harness.inference.client import InferenceClient
+
+if TYPE_CHECKING:
+    from harness.context.bundle import ContextBundle
 
 
 class OrchestrationPattern(Protocol):
@@ -21,4 +24,5 @@ class OrchestrationPattern(Protocol):
         brief: str,
         client: InferenceClient,
         profile_name: str,
+        context: "ContextBundle | None" = None,
     ) -> Conversation: ...

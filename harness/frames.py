@@ -114,6 +114,13 @@ class TemperatureLadder:
     """Vanilla diversity sampling: same prompt, varying sampling temperature.
 
     Less principled than identity/discipline frames but useful as a baseline.
+
+    Variance warning: at narrow temperature spreads (e.g. [0.5, 0.6, 0.7])
+    small models will produce near-duplicate variants — a frame-collapse risk
+    the harness's variance-engineering thesis is supposed to prevent. For
+    meaningful variance, use a wide spread ([0.3, 0.7, 1.0, 1.3] or wider) or
+    prefer IdentityFrames / DisciplineFrames / ConstraintInversion which
+    inject distinct text per variant.
     """
 
     temperatures: list[float]
