@@ -9,6 +9,7 @@ export default defineConfig({
       title: 'LocoAgente',
       description: 'Can Small Models Think in Loops?',
       favicon: '/robot.svg',
+      disable404Route: true,
       logo: {
         alt: 'LocoAgente',
         src: './src/assets/robot.svg',
