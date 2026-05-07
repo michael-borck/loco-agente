@@ -56,3 +56,48 @@ def test_debate_command_writes_conversation_trace(
     assert trace["pattern"] == "DebatePattern"
     assert len(trace["rounds"]) == 1
     assert len(trace["rounds"][0]["variants"]) == 2
+
+
+def test_synthesise_command_writes_trace_with_corpus(
+    tmp_path: Path, fake_inference_responses: list[str]
+) -> None:
+    # Build minimal corpus
+    corpus = tmp_path / "papers"
+    bio = corpus / "biology"
+    ops = corpus / "operations"
+    bio.mkdir(parents=True)
+    ops.mkdir(parents=True)
+    (bio / "p1.md").write_text("Title: cellular automata\nAbstract: foo")
+    (ops / "p1.md").write_text("Title: queueing models\nAbstract: bar")
+
+    profile_root = tmp_path / "profiles" / "academic"
+    (profile_root / "rules").mkdir(parents=True)
+    (profile_root / "rules" / "cite_or_flag.md").write_text("Cite or flag.")
+
+    runner = CliRunner()
+    output_path = tmp_path / "trace.json"
+
+    from harness.inference.client import FakeInferenceClient
+    canned = (
+        "<variant>\n<text>insight</text>\n<rationale>r</rationale>\n</variant>"
+    )
+    with patch("cli.commands.synthesise.build_inference_client") as mock_build:
+        mock_build.return_value = FakeInferenceClient(
+            responses=[canned, canned, canned, canned]
+        )
+        result = runner.invoke(
+            main,
+            [
+                "synthesise",
+                "--brief", "supply chain reliability",
+                "--disciplines", "biology,operations",
+                "--corpus-root", str(corpus),
+                "--profile-root", str(profile_root),
+                "--output", str(output_path),
+            ],
+        )
+
+    assert result.exit_code == 0, result.output
+    trace = json.loads(output_path.read_text())
+    assert trace["pattern"] == "SynthesisPattern"
+    assert len(trace["rounds"][0]["variants"]) == 2
