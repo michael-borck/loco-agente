@@ -107,3 +107,80 @@ class IdentityFrames:
                 PromptSpec(text=text, frame_name=frame, sampling_params={})
             )
         return specs
+
+
+@dataclass
+class TemperatureLadder:
+    """Vanilla diversity sampling: same prompt, varying sampling temperature.
+
+    Less principled than identity/discipline frames but useful as a baseline.
+    """
+
+    temperatures: list[float]
+
+    def generate_prompt_specs(
+        self,
+        *,
+        base_prompt: str,
+        n: int,
+        rules: list[str],
+    ) -> list[PromptSpec]:
+        if n != len(self.temperatures):
+            raise ValueError(
+                f"n must equal the number of temperatures; got n={n}, "
+                f"temperatures={len(self.temperatures)}"
+            )
+        text = _compose_prompt(
+            personality="(no specific frame; vary by sampling)",
+            rules=rules,
+            base_prompt=base_prompt,
+        )
+        return [
+            PromptSpec(
+                text=text,
+                frame_name=f"temp_{t}",
+                sampling_params={"temperature": t},
+            )
+            for t in self.temperatures
+        ]
+
+
+@dataclass
+class DisciplineFrames:
+    """Cross-disciplinary scanning: one PromptSpec per discipline.
+
+    The discipline label is inserted into a generic 'scout' prompt template;
+    no personality file is required (unlike IdentityFrames). Use IdentityFrames
+    when you want fully customised personalities; use DisciplineFrames for
+    quick cross-disciplinary scans.
+    """
+
+    disciplines: list[str]
+
+    def generate_prompt_specs(
+        self,
+        *,
+        base_prompt: str,
+        n: int,
+        rules: list[str],
+    ) -> list[PromptSpec]:
+        if n != len(self.disciplines):
+            raise ValueError(
+                f"n must equal the number of disciplines; got n={n}, "
+                f"disciplines={len(self.disciplines)}"
+            )
+        specs: list[PromptSpec] = []
+        for discipline in self.disciplines:
+            personality = (
+                f"You are a researcher with deep training in {discipline}. "
+                f"Read the brief through your discipline's analytical lens. "
+                f"Surface connections, methods, or vocabulary your discipline "
+                f"would bring to bear that an outsider might miss."
+            )
+            text = _compose_prompt(
+                personality=personality, rules=rules, base_prompt=base_prompt
+            )
+            specs.append(
+                PromptSpec(text=text, frame_name=discipline, sampling_params={})
+            )
+        return specs

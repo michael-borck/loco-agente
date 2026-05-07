@@ -54,3 +54,53 @@ def test_identity_frames_missing_personality_file_raises(tmp_profile: Path) -> N
     )
     with pytest.raises(FileNotFoundError, match="nonexistent"):
         strategy.generate_prompt_specs(base_prompt="x", n=1, rules=[])
+
+
+from harness.frames import DisciplineFrames, TemperatureLadder
+
+
+def test_temperature_ladder_emits_n_prompts_with_distinct_temps() -> None:
+    strategy = TemperatureLadder(temperatures=[0.3, 0.7, 1.0, 1.3])
+    specs = strategy.generate_prompt_specs(
+        base_prompt="Tell me a story about a dragon", n=4, rules=[]
+    )
+
+    assert len(specs) == 4
+    temps = [s.sampling_params["temperature"] for s in specs]
+    assert temps == [0.3, 0.7, 1.0, 1.3]
+    # All four prompts share the same text — only sampling differs
+    assert len({s.text for s in specs}) == 1
+    # Frame name encodes the temperature for traceability
+    assert {s.frame_name for s in specs} == {"temp_0.3", "temp_0.7", "temp_1.0", "temp_1.3"}
+
+
+def test_temperature_ladder_n_must_match_temp_count() -> None:
+    strategy = TemperatureLadder(temperatures=[0.3, 0.7])
+    with pytest.raises(ValueError, match="n must equal"):
+        strategy.generate_prompt_specs(base_prompt="x", n=3, rules=[])
+
+
+def test_discipline_frames_inserts_discipline_label() -> None:
+    strategy = DisciplineFrames(
+        disciplines=["systems biology", "operations research"]
+    )
+    specs = strategy.generate_prompt_specs(
+        base_prompt="How would you approach reducing supply chain failures?",
+        n=2,
+        rules=[],
+    )
+
+    assert len(specs) == 2
+    assert {s.frame_name for s in specs} == {
+        "systems biology",
+        "operations research",
+    }
+    biology_spec = next(s for s in specs if s.frame_name == "systems biology")
+    assert "systems biology" in biology_spec.text.lower()
+    assert "supply chain failures" in biology_spec.text
+
+
+def test_discipline_frames_n_must_match_discipline_count() -> None:
+    strategy = DisciplineFrames(disciplines=["x", "y"])
+    with pytest.raises(ValueError, match="n must equal"):
+        strategy.generate_prompt_specs(base_prompt="x", n=3, rules=[])
