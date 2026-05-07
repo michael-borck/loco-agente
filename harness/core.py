@@ -120,3 +120,52 @@ def parse_variant(raw: str, *, frame_name: str) -> Variant:
         ),
         metadata={"frame_name": frame_name},
     )
+
+
+import uuid
+
+from harness.frames import FrameStrategy
+from harness.inference.client import InferenceClient
+
+
+def generate_variants(
+    *,
+    prompt: str,
+    n: int,
+    frame_strategy: FrameStrategy,
+    client: InferenceClient,
+    rules: list[str],
+    run_id: str | None = None,
+) -> list[Variant]:
+    """The E primitive — produce N rationale-bearing variants with surfaced uncertainty.
+
+    Contract:
+      - n >= 2 (singular outputs forbidden at this layer)
+      - Each variant carries text, rationale, and Uncertainty
+      - Variant.metadata records frame_name and run_id
+
+    See spec §2.
+    """
+    if n < 2:
+        raise ValueError(
+            "n must be >= 2 — singular outputs are forbidden at the primitive level"
+        )
+
+    if run_id is None:
+        run_id = uuid.uuid4().hex[:12]
+
+    specs = frame_strategy.generate_prompt_specs(
+        base_prompt=prompt, n=n, rules=rules
+    )
+    if len(specs) != n:
+        raise ValueError(
+            f"frame_strategy returned {len(specs)} prompts; expected {n}"
+        )
+
+    variants: list[Variant] = []
+    for spec in specs:
+        response = client.complete(spec.text, **spec.sampling_params)
+        variant = parse_variant(response, frame_name=spec.frame_name)
+        variant.metadata["run_id"] = run_id
+        variants.append(variant)
+    return variants

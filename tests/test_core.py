@@ -115,3 +115,85 @@ def test_parse_variant_splits_semicolon_lists() -> None:
     v = parse_variant(raw, frame_name="x")
     assert v.uncertainty.flags == ["flag one", "flag two", "flag three"]
     assert v.uncertainty.verification_hooks == ["check A", "check B"]
+
+
+from pathlib import Path
+
+from harness.core import generate_variants
+from harness.frames import IdentityFrames
+from harness.inference.client import FakeInferenceClient
+
+
+def test_generate_variants_rejects_n_below_two(tmp_profile: Path) -> None:
+    fake = FakeInferenceClient(responses=["a"])
+    strategy = IdentityFrames(frames=["ceo"], profile_root=tmp_profile)
+
+    with pytest.raises(ValueError, match="n must be >= 2"):
+        generate_variants(
+            prompt="x",
+            n=1,
+            frame_strategy=strategy,
+            client=fake,
+            rules=[],
+        )
+
+
+def test_generate_variants_returns_n_parsed_variants(
+    tmp_profile: Path, fake_inference_responses: list[str]
+) -> None:
+    fake = FakeInferenceClient(responses=fake_inference_responses[:2])
+    strategy = IdentityFrames(
+        frames=["ceo", "legal"], profile_root=tmp_profile
+    )
+
+    variants = generate_variants(
+        prompt="Should we ship now?",
+        n=2,
+        frame_strategy=strategy,
+        client=fake,
+        rules=[],
+    )
+
+    assert len(variants) == 2
+    assert {v.metadata["frame_name"] for v in variants} == {"ceo", "legal"}
+    for v in variants:
+        assert v.text
+        assert v.rationale
+        assert 0.0 <= v.uncertainty.confidence <= 1.0
+
+
+def test_generate_variants_passes_sampling_params_to_client(
+    tmp_profile: Path,
+) -> None:
+    canned = (
+        "<variant>\n<text>x</text>\n<rationale>y</rationale>\n</variant>"
+    )
+    fake = FakeInferenceClient(responses=[canned, canned, canned, canned])
+
+    from harness.frames import TemperatureLadder
+
+    strategy = TemperatureLadder(temperatures=[0.3, 0.7, 1.0, 1.3])
+    generate_variants(
+        prompt="x", n=4, frame_strategy=strategy, client=fake, rules=[]
+    )
+
+    temps_passed = [c["sampling_params"].get("temperature") for c in fake.calls]
+    assert temps_passed == [0.3, 0.7, 1.0, 1.3]
+
+
+def test_generate_variants_records_run_id_in_metadata(
+    tmp_profile: Path, fake_inference_responses: list[str]
+) -> None:
+    fake2 = FakeInferenceClient(responses=fake_inference_responses[:2])
+    strategy2 = IdentityFrames(
+        frames=["ceo", "legal"], profile_root=tmp_profile
+    )
+    variants = generate_variants(
+        prompt="x",
+        n=2,
+        frame_strategy=strategy2,
+        client=fake2,
+        rules=[],
+        run_id="my-run-id",
+    )
+    assert all(v.metadata["run_id"] == "my-run-id" for v in variants)
