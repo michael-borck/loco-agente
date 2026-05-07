@@ -241,3 +241,43 @@ def test_iterative_refinement_stops_at_max_iterations(
 
     conv = pattern.run(brief="x", client=fake, profile_name="test")
     assert len(conv.rounds) == 3
+
+
+from harness.context.bundle import load_bundle
+
+
+def test_single_pass_loads_rules_from_bundle(
+    tmp_profile: Path, fake_inference_responses: list[str]
+) -> None:
+    bundle = load_bundle(tmp_profile)
+    fake = FakeInferenceClient(responses=fake_inference_responses[:2])
+    pattern = SinglePass(
+        frame_strategy=IdentityFrames(
+            frames=["ceo", "legal"], profile_root=tmp_profile
+        ),
+        n=2,
+        rule_names=["never_fabricate"],
+    )
+
+    pattern.run(
+        brief="x", client=fake, profile_name="test", context=bundle
+    )
+
+    # Both prompts should include the never_fabricate rule body
+    for call in fake.calls:
+        assert "Never fabricate" in call["prompt"]
+
+
+def test_single_pass_works_without_context_for_backward_compat(
+    tmp_profile: Path, fake_inference_responses: list[str]
+) -> None:
+    fake = FakeInferenceClient(responses=fake_inference_responses[:2])
+    pattern = SinglePass(
+        frame_strategy=IdentityFrames(
+            frames=["ceo", "legal"], profile_root=tmp_profile
+        ),
+        n=2,
+        rule_names=[],  # no rules requested
+    )
+    conv = pattern.run(brief="x", client=fake, profile_name="test")
+    assert len(conv.rounds[0].variants) == 2

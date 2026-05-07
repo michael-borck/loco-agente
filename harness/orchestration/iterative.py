@@ -2,12 +2,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 from harness.conversation import Conversation, Round
 from harness.core import Variant, generate_variants
 from harness.frames import FrameStrategy
 from harness.inference.client import InferenceClient
+
+if TYPE_CHECKING:
+    from harness.context.bundle import ContextBundle
 
 
 CritiqueFn = Callable[[list[Variant]], str]
@@ -35,7 +38,13 @@ class IterativeRefinement:
         brief: str,
         client: InferenceClient,
         profile_name: str,
+        context: "ContextBundle | None" = None,
     ) -> Conversation:
+        rules = (
+            context.select_rules(self.rule_names)
+            if context is not None and self.rule_names
+            else []
+        )
         accumulated: list[Round] = []
         run_id: str | None = None
         critique_history: list[str] = []
@@ -55,7 +64,7 @@ class IterativeRefinement:
                 n=self.n,
                 frame_strategy=self.frame_strategy,
                 client=client,
-                rules=[],
+                rules=rules,
                 run_id=run_id,
             )
             if run_id is None:

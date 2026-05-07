@@ -7,11 +7,15 @@ so subsequent frames can respond, refine, or push back.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from harness.conversation import Conversation, Round
 from harness.core import generate_variants
 from harness.frames import FrameStrategy
 from harness.inference.client import InferenceClient
+
+if TYPE_CHECKING:
+    from harness.context.bundle import ContextBundle
 
 
 def _format_prior_rounds(rounds: list[Round]) -> str:
@@ -45,7 +49,13 @@ class DebatePattern:
         brief: str,
         client: InferenceClient,
         profile_name: str,
+        context: "ContextBundle | None" = None,
     ) -> Conversation:
+        rules = (
+            context.select_rules(self.rule_names)
+            if context is not None and self.rule_names
+            else []
+        )
         accumulated_rounds: list[Round] = []
         run_id: str | None = None
 
@@ -61,7 +71,7 @@ class DebatePattern:
                 n=self.n,
                 frame_strategy=self.frame_strategy,
                 client=client,
-                rules=[],  # rules wired by CLI in Task 16
+                rules=rules,
                 run_id=run_id,
             )
             if run_id is None:

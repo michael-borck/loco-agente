@@ -7,11 +7,15 @@ patterns.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from harness.conversation import Conversation, Round
 from harness.core import generate_variants
 from harness.frames import FrameStrategy
 from harness.inference.client import InferenceClient
+
+if TYPE_CHECKING:
+    from harness.context.bundle import ContextBundle
 
 
 @dataclass
@@ -28,16 +32,19 @@ class SinglePass:
         brief: str,
         client: InferenceClient,
         profile_name: str,
+        context: "ContextBundle | None" = None,
     ) -> Conversation:
-        # Phase 1: rules are not loaded from a ContextBundle yet. The CLI
-        # composes them when it calls the pattern; here rule_names is just
-        # a label list. See Task 16 for full ContextBundle integration.
+        rules = (
+            context.select_rules(self.rule_names)
+            if context is not None and self.rule_names
+            else []
+        )
         variants = generate_variants(
             prompt=brief,
             n=self.n,
             frame_strategy=self.frame_strategy,
             client=client,
-            rules=[],  # rules wired by CLI in Task 16
+            rules=rules,
         )
         run_id = variants[0].metadata["run_id"]
         return Conversation(

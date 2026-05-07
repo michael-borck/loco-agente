@@ -8,11 +8,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from harness.conversation import Conversation, Round
 from harness.core import generate_variants
 from harness.frames import DisciplineFrames, FrameStrategy
 from harness.inference.client import InferenceClient
+
+if TYPE_CHECKING:
+    from harness.context.bundle import ContextBundle
 
 
 def _load_corpus_for_discipline(corpus_root: Path, discipline: str) -> str:
@@ -50,6 +54,7 @@ class SynthesisPattern:
         brief: str,
         client: InferenceClient,
         profile_name: str,
+        context: "ContextBundle | None" = None,
     ) -> Conversation:
         if not isinstance(self.frame_strategy, DisciplineFrames):
             raise TypeError(
@@ -57,6 +62,11 @@ class SynthesisPattern:
                 f"{type(self.frame_strategy).__name__}"
             )
 
+        rules = (
+            context.select_rules(self.rule_names)
+            if context is not None and self.rule_names
+            else []
+        )
         all_variants = []
         run_id: str | None = None
 
@@ -80,7 +90,7 @@ class SynthesisPattern:
                 n=2,
                 frame_strategy=DisciplineFrames(disciplines=two_disciplines),
                 client=client,
-                rules=[],  # rules wired by CLI in Task 16
+                rules=rules,
                 run_id=run_id,
             )
             if run_id is None:
