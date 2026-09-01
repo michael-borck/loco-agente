@@ -1,6 +1,6 @@
 ---
 title: "Research Plan"
-description: "Four research tracks, phasing, dependencies, and the LocoBench handoff."
+description: "Four research tracks, phasing, dependencies, and the LocoBanco handoff."
 ---
 
 # Research Plan
@@ -31,7 +31,7 @@ Systematic study of which scaffolding strategies most improve small-model agent 
 
 ### [Track D: Framework Evaluation](track-d-framework-eval)
 
-Does framework choice meaningfully affect SLM agent performance? The hypothesis: minimalist orchestrators outperform full-featured frameworks with local models because of lower prompt overhead. Results feed into LocoBench.
+Does framework choice meaningfully affect SLM agent performance? The hypothesis: minimalist orchestrators outperform full-featured frameworks with local models because of lower prompt overhead. Results feed into LocoBanco.
 
 ---
 
@@ -95,6 +95,6 @@ Track A is the foundation. Tracks B, C, and D build on it but are otherwise inde
 
 ---
 
-## The LocoBench Handoff
+## The LocoBanco Handoff
 
-LocoAgente generates experiments and qualitative findings. When results need rigorous, reproducible measurement — particularly from Track D's framework comparisons — the benchmarking methodology and runs move to LocoBench. LocoAgente asks the questions; LocoBench produces the numbers.
+LocoAgente generates experiments and qualitative findings. When results need rigorous, reproducible measurement — particularly from Track D's framework comparisons — the benchmarking methodology and runs move to LocoBanco. LocoAgente asks the questions; LocoBanco produces the numbers.

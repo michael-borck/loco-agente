@@ -41,4 +41,4 @@ The clean boundary is the OpenAI-compatible chat-completions contract. Both side
 
 - [LocoLLM](https://locollm.org) — project site; see ADR-0006 ("GGUF/Ollama inference standard") and ADR-0003 ("single evolving router")
 - [Four subsystems](../architecture/four-subsystems.md) — where Inference sits in the LocoAgente harness
-- [LocoLab: Technique before scale](https://locolabo.org/the-loco-thesis#technique-before-scale) — how the projects compose at the lab level
+- [LocoLabo: Technique before scale](https://locolabo.org/the-loco-thesis#technique-before-scale) — how the projects compose at the lab level

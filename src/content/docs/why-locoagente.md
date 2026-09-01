@@ -41,7 +41,7 @@ Frontier models can figure things out on the fly. SLMs require strict guardrails
 
 The shift is from "giving an open-ended assistant a complex job" to "building a highly structured digital assembly line." Each station has one job, can only produce valid output, has a fixed set of tools, and escalates when it can't handle the work.
 
-That framing connects directly to LocoLab's broader philosophy: **conversation, not delegation**. Small models are not worse frontier models. They are different tools that reward different design choices.
+That framing connects directly to LocoLabo's broader philosophy: **conversation, not delegation**. Small models are not worse frontier models. They are different tools that reward different design choices.
 
 ---
 

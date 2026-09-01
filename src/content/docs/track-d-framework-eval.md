@@ -58,9 +58,9 @@ All four run the same task, same model, same hardware. The only variable is the 
 
 ---
 
-## The LocoBench Handoff
+## The LocoBanco Handoff
 
-Track D produces qualitative findings and initial measurements. When results are mature enough for rigorous, reproducible benchmarking, the methodology and runs move to LocoBench. LocoAgente generates the experiments; LocoBench produces the numbers.
+Track D produces qualitative findings and initial measurements. When results are mature enough for rigorous, reproducible benchmarking, the methodology and runs move to LocoBanco. LocoAgente generates the experiments; LocoBanco produces the numbers.
 
 ---
 

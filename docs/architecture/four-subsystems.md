@@ -13,10 +13,10 @@ TOOLS          — MCP-based external capabilities
                   (Phase 1 stub; Phase 2 real)
                               ↓ uses
 INFERENCE      — OpenAI-compatible HTTP backend
-                  (Ollama default; loco-bench specifies which engine)
+                  (Ollama default; loco-banco specifies which engine)
 ```
 
-The four subsystems are not equally novel. **Orchestration and Context are where the project's research contribution lives.** Tools is "adopt MCP, don't reinvent." Inference is already covered by loco-bench (which engine to pick) and loco-puente (deployment).
+The four subsystems are not equally novel. **Orchestration and Context are where the project's research contribution lives.** Tools is "adopt MCP, don't reinvent." Inference is already covered by loco-banco (which engine to pick) and loco-puente (deployment).
 
 ## Orchestration
 
@@ -53,4 +53,4 @@ If MCP is replaced by a successor protocol, the Tools subsystem is the only plac
 
 ## Inference
 
-The harness is inference-engine-agnostic. It speaks OpenAI-compatible HTTP. Defaults to Ollama for ergonomics; loco-bench specifies which engine is best for which VRAM tier.
+The harness is inference-engine-agnostic. It speaks OpenAI-compatible HTTP. Defaults to Ollama for ergonomics; loco-banco specifies which engine is best for which VRAM tier.
