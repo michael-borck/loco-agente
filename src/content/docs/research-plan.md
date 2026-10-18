@@ -27,7 +27,7 @@ Extend to other well-scoped tasks: data analysis, code review, documentation. Ea
 
 ### [Track C: Scaffolding Research](track-c-scaffolding)
 
-Systematic study of which scaffolding strategies most improve small-model agent reliability. The most publishable track — connects to the Cognitive Strategy Transfer research and the keep-asking nudge work.
+Systematic study of which scaffolding strategies most improve small-model agent reliability. The most publishable track — connects to the Cognitive Strategy Transfer research and the [Keep Asking](https://keep-asking.locolabo.org) nudge work.
 
 ### [Track D: Framework Evaluation](track-d-framework-eval)
 
