@@ -1,6 +1,6 @@
-# Conversational Harness Phase 1 Implementation Plan — Part 2
+# Conversational Harness Phase 1 Implementation Plan: Part 2
 
-> **For agentic workers:** continuation of `2026-05-07-conversational-harness-phase1.md`. Part 1 covers Tasks 0-10 (Bootstrap → E primitive). This part covers Tasks 11-25 (Conversation trace → final integration).
+> **For agentic workers:** continuation of `2026-05-07-conversational-harness-phase1.md`. Part 1 covers Tasks 0-10 (Bootstrap through the E primitive). This part covers Tasks 11-25 (Conversation trace through final integration).
 
 ---
 
@@ -652,9 +652,9 @@ def test_synthesis_pattern_corpus_paths_appended_to_brief(
     assert "study idea" in biology_call["prompt"]
 ```
 
-Note: the second test's frame strategy uses `n=1` for the synthesis pattern; this is the deliberate exception to the n>=2 primitive rule below — see implementation comment.
+Note: the second test's frame strategy uses `n=1` for the synthesis pattern. This is the deliberate exception to the n>=2 primitive rule below; see the implementation comment.
 
-Wait — actually `generate_variants` enforces `n >= 2`. SynthesisPattern with one discipline would violate this. We need to either:
+`generate_variants` enforces `n >= 2`, so SynthesisPattern with one discipline would violate this. We need to either:
 (a) Allow n=1 in `generate_variants` only when called from SynthesisPattern (a flag), or
 (b) Require SynthesisPattern to use n>=2 disciplines (the spec's typical case anyway)
 
@@ -884,7 +884,7 @@ Replace the `assert biology_call = fake.calls[0]` block with:
     assert "Cellular automata in metabolism" not in operations_call["prompt"]
 ```
 
-And update `_build_round_responses` usage in the synthesis test — it needs 4 responses (2 disciplines × 2 angles), not 2:
+Update `_build_round_responses` usage in the synthesis test. It needs 4 responses (2 disciplines × 2 angles), not 2:
 
 ```python
     responses = _build_round_responses(n_frames=2, n_rounds=2)  # = 4 responses
@@ -1131,7 +1131,7 @@ def test_single_pass_works_without_context_for_backward_compat(
 .venv/bin/python -m pytest tests/test_orchestration.py -v
 ```
 
-Expected: FAIL — the `context=bundle` kwarg isn't accepted.
+Expected: FAIL because the `context=bundle` kwarg isn't accepted.
 
 - [ ] **Step 3: Update each pattern's `run()` to accept an optional `context` and resolve rules**
 
@@ -1217,11 +1217,11 @@ You produce structured output wrapped in these XML tags:
 ```
 <variant>
 <text>
-[your actual response — the perspective, answer, or idea]
+[your actual response: the perspective, answer, or idea]
 </text>
 
 <rationale>
-[why this response — the framing or reasoning that produced it]
+[why this response: the framing or reasoning that produced it]
 </rationale>
 
 <confidence>
@@ -1883,7 +1883,7 @@ def test_synthesise_command_writes_trace_with_corpus(
 .venv/bin/python -m pytest tests/test_cli.py -v
 ```
 
-Expected: FAIL — `synthesise` doesn't accept these flags yet.
+Expected: FAIL because `synthesise` doesn't accept these flags yet.
 
 - [ ] **Step 3: Replace `cli/commands/synthesise.py` with full implementation**
 
@@ -2050,7 +2050,7 @@ def test_log_command_summarises_trace(tmp_path: Path) -> None:
 .venv/bin/python -m pytest tests/test_cli.py -v
 ```
 
-Expected: FAIL — `log` doesn't accept `--trace`.
+Expected: FAIL because `log` doesn't accept `--trace`.
 
 - [ ] **Step 3: Replace `cli/commands/log.py`**
 
@@ -2360,9 +2360,9 @@ cp ~/Zotero/exports/economics/*.md ./my_corpus/economics/
 ```
 ```
 
-- [ ] **Step 5: Create the sample paper corpus — 8 short stubs across 4 disciplines**
+- [ ] **Step 5: Create the sample paper corpus: 8 short stubs across 4 disciplines**
 
-For each of the four disciplines, create `applications/conversation/research_synthesis/sample_papers/<discipline>/paper_{1,2}.md` with short, plausibly-real abstracts. Each file should be ~150–300 words and not invent citations. Example for biology:
+For each of the four disciplines, create `applications/conversation/research_synthesis/sample_papers/<discipline>/paper_{1,2}.md` with short, plausibly real abstracts. Each file should be ~150 to 300 words and not invent citations. Example for biology:
 
 `applications/conversation/research_synthesis/sample_papers/biology/paper_1.md`:
 
@@ -2655,16 +2655,16 @@ Calibration capture starts on day one: every user pick / reject / edit on every 
 The harness has four named subsystems, mapped to the four-layer enterprise harness model from contemporary literature but using names rather than numbers because the diagram doesn't flow numerically and the project's research surfaces are not the enterprise framing's research surfaces.
 
 ```
-ORCHESTRATION  — patterns that compose the E primitive
+ORCHESTRATION : patterns that compose the E primitive
                   (DebatePattern, SynthesisPattern, IterativeRefinement, SinglePass)
                               ↓ uses
-CONTEXT        — hierarchical instruction file system
+CONTEXT       : hierarchical instruction file system
                   (personality, rules, memory, tools)
                               ↓ uses
-TOOLS          — MCP-based external capabilities
+TOOLS         : MCP-based external capabilities
                   (Phase 1 stub; Phase 2 real)
                               ↓ uses
-INFERENCE      — OpenAI-compatible HTTP backend
+INFERENCE     : OpenAI-compatible HTTP backend
                   (Ollama default; loco-bench specifies which engine)
 ```
 
@@ -3098,7 +3098,7 @@ These are documented in spec §6 and §7 but **not in this plan**. They become P
 - Real MCP retrieval (replaces the stubbed `StubToolClient` and the folder-of-papers in Research Synthesis)
 - Calibration analysis (Track C study on captured user-feedback data)
 - Orchestration framework comparison (Track D study: hand-rolled vs LangGraph vs CrewAI)
-- Delegation applications (autoresearch port, task agents) — Phase 3 work
+- Delegation applications (autoresearch port, task agents): Phase 3 work
 - Web UI / chatbot UI as downstream consumers of the harness (out of repo)
 - Adapter training (Phase 4 LocoLLM integration)
 

@@ -19,7 +19,7 @@ Once the autoresearch baseline is established (Track A), extend the agent loop t
 - Check results for correctness
 - Iterate on findings
 
-**Evaluation:** Automatic — does the generated code run? Do the statistics match a reference analysis?
+Evaluation: automatic. Does the generated code run? Do the statistics match a reference analysis?
 
 ### Code Review Agent
 
@@ -28,7 +28,7 @@ Once the autoresearch baseline is established (Track A), extend the agent loop t
 - Suggest specific fixes
 - Verify suggestions are syntactically valid
 
-**Evaluation:** Semi-automatic — compare identified issues against a labelled set of known bugs.
+Evaluation: semi-automatic. Compare identified issues against a labelled set of known bugs.
 
 ### Documentation Agent
 
@@ -37,7 +37,7 @@ Once the autoresearch baseline is established (Track A), extend the agent loop t
 - Verify accuracy against the code
 - Check for completeness
 
-**Evaluation:** Automatic for structure (does it cover all public functions?), manual for quality.
+Evaluation: automatic for structure (does it cover all public functions?), manual for quality.
 
 ---
 
@@ -45,10 +45,10 @@ Once the autoresearch baseline is established (Track A), extend the agent loop t
 
 Each task-specific agent follows the same pattern:
 
-1. **Same base model** — Qwen3-4B, Q4_K_M
-2. **Task-specific adapter** — trained via LocoLLM's adapter pipeline on domain-relevant data
-3. **Domain-constrained action space** — each agent only has tools relevant to its task
-4. **Automatic evaluation** — where possible, remove the need for human scoring
+1. Same base model: Qwen3-4B, Q4_K_M
+2. Task-specific adapter: trained via LocoLLM's adapter pipeline on domain-relevant data
+3. Domain-constrained action space: each agent only has tools relevant to its task
+4. Automatic evaluation: where possible, remove the need for human scoring
 
 The adapter training connects directly to LocoLLM's infrastructure. The adapter is what specialises the base model for the task; the scaffolding strategies (from Track C) are what make the loop reliable.
 

@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the LocoAgente conversational harness library, two demo applications (Perspective Debate end-to-end + Research Synthesis skeleton), three Context profile bundles (business, academic, writing), a CLI, and Phase 1 documentation — all running on a small local model via Ollama.
+**Goal:** Build the LocoAgente conversational harness library, two demo applications (Perspective Debate end-to-end + Research Synthesis skeleton), three Context profile bundles (business, academic, writing), a CLI, and Phase 1 documentation, all running on a small local model via Ollama.
 
-**Architecture:** A flat-layout Python package at the repo root: `harness/` (core library), `cli/` (CLI commands), `applications/` (demo wiring), `profiles/` (Context bundles as data), `tests/` (pytest). The harness library implements the four named subsystems from the spec — Orchestration, Context, Tools, Inference — built on the foundational E primitive (`generate_variants` returning rationale-bearing variants with surfaced uncertainty). The Astro docs site under `src/` is left untouched.
+**Architecture:** A flat-layout Python package at the repo root: `harness/` (core library), `cli/` (CLI commands), `applications/` (demo wiring), `profiles/` (Context bundles as data), `tests/` (pytest). The harness library implements the four named subsystems from the spec (Orchestration, Context, Tools, Inference), built on the foundational E primitive (`generate_variants` returning rationale-bearing variants with surfaced uncertainty). The Astro docs site under `src/` is left untouched.
 
 **Tech Stack:** Python 3.10+, `uv` for venv management, `openai` SDK for OpenAI-compatible HTTP (talks to Ollama / llama.cpp / vLLM / SGLang), `click` for CLI, `PyYAML` for config, `pytest` for tests, Ollama as the default local inference backend.
 
@@ -48,7 +48,7 @@
 | `profiles/academic/rules/{cite_or_flag,explicit_uncertainty_on_citations}.md` | academic rules |
 | `profiles/writing/personality/{protagonist,antagonist,narrator}.md` | writing frames |
 | `profiles/writing/rules/{stay_in_voice,no_self_referential}.md` | writing rules |
-| `profiles/_common/output_format.md` | the variant output format spec (XML tags) — prepended to every prompt |
+| `profiles/_common/output_format.md` | the variant output format spec (XML tags): prepended to every prompt |
 | `applications/__init__.py` | applications package marker |
 | `applications/conversation/__init__.py` | conversation subpackage |
 | `applications/conversation/perspective_debate/__init__.py` | demo package |
@@ -286,7 +286,7 @@ dist/
 .venv/bin/python -m pytest tests/ -v
 ```
 
-Expected: `no tests ran` or `0 collected` — packages import cleanly.
+Expected: `no tests ran` or `0 collected`, so the packages import cleanly.
 
 - [ ] **Step 7: Commit**
 
@@ -350,7 +350,7 @@ def test_uncertainty_accepts_relative_rank() -> None:
 
 Expected: FAIL with `ModuleNotFoundError: No module named 'harness.core'`.
 
-- [ ] **Step 3: Implement `harness/core.py` (data types only — parser and `generate_variants` come in later tasks)**
+- [ ] **Step 3: Implement harness/core.py (data types only: parser and generate_variants come in later tasks)**
 
 ```python
 """Core types and the E primitive for the LocoAgente harness.

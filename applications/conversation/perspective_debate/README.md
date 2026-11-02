@@ -1,6 +1,6 @@
 # Perspective Debate Demo
 
-The Phase 1 headline demo. Three business frames (CEO, legal counsel, marketing director) debate a brief over multiple rounds. The harness produces a structured `Conversation` trace surfacing each frame's perspective, where they disagree, what each is uncertain about, and what the human should verify.
+The Phase 1 headline demo. Three business frames (CEO, legal counsel, marketing director) debate a brief over multiple rounds. The harness produces a structured `Conversation` trace that shows each frame's perspective, where they disagree, what each is uncertain about, and what the human should verify.
 
 ## Run it
 
@@ -30,7 +30,7 @@ Prerequisite: an OpenAI-compatible inference backend running locally. Default is
 ## What success looks like
 
 - Three personalities are distinguishable (blind test: a reader can guess which frame produced which variant)
-- Disagreements are surfaced explicitly, not glossed
+- The harness states disagreements explicitly
 - Uncertainty hooks fire when the model claims something verifiable
 
 ## Customisation

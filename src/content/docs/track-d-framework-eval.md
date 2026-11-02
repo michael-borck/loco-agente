@@ -5,7 +5,7 @@ description: "Does framework choice meaningfully affect small-model agent perfor
 
 # Track D: Framework Evaluation
 
-Most comparisons between agentic frameworks are conducted on frontier models, where framework overhead is negligible. With SLMs, every token in the context window matters. LocoAgente asks whether framework choice meaningfully affects small-model agent performance.
+Most framework comparisons use frontier models, where framework overhead is negligible. With SLMs, every token in the context window matters. LocoAgente asks whether framework choice meaningfully affects small-model agent performance.
 
 ---
 
@@ -19,9 +19,9 @@ If true, the implication is that SLM agent deployments should lean toward minima
 
 ## Why This Matters
 
-Framework comparisons are always done on frontier models. The overhead of a LangGraph system prompt or a CrewAI role description is a rounding error when you have 128K tokens of context. But a 4B model with an effective 4K-8K context window? A bloated system prompt could consume 20-30% of usable context before the agent even starts working.
+Framework comparisons almost always use frontier models. The overhead of a LangGraph system prompt or a CrewAI role description is a rounding error when you have 128K tokens of context. But a 4B model with an effective 4K-8K context window? A bloated system prompt could consume 20-30% of usable context before the agent even starts working.
 
-This is a genuinely unstudied question. Nobody has measured it.
+Nobody has measured this.
 
 ---
 
@@ -41,7 +41,7 @@ How quickly does the agent lose goal coherence across turns under each framework
 
 ### Failure Modes
 
-Do framework-managed agents fail differently than minimalist agents? Qualitative analysis of failure patterns — does LangGraph's structure prevent certain failures? Does CrewAI's role framing introduce new ones?
+Do framework-managed agents fail differently than minimalist agents? Qualitative analysis of failure patterns: does LangGraph's structure prevent certain failures? Does CrewAI's role framing introduce new ones?
 
 ---
 
@@ -74,7 +74,7 @@ Track D produces qualitative findings and initial measurements. When results are
 
 ## Dependencies
 
-Can start alongside Track A — requires only a working agent loop, which can be implemented independently in each framework. Benefits from Track C findings about which scaffolding strategies to include in each framework's configuration.
+Can start alongside Track A. It requires only a working agent loop, which can be implemented independently in each framework. Benefits from Track C findings about which scaffolding strategies to include in each framework's configuration.
 
 ---
 

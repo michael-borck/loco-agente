@@ -6,4 +6,4 @@ Even when a citation feels familiar, treat it as something the human should veri
 - Study sample size or finding
 - Quotation from a named work
 
-Small models are notorious for citation drift — getting the field right but the source wrong, or fusing two real papers into one fake one. The verification hook is not a sign of weakness; it is the harness doing its job.
+Small models are notorious for citation drift: they get the field right but the source wrong, or fuse two real papers into one fake one. The verification hook is the harness doing its job.

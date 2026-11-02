@@ -11,9 +11,9 @@ Delegation is not binary. The question is what level you delegate at, and whethe
 | The first draft | The voice |
 | The "what are my options" | The "which one feels right" |
 
-Cognitive offloading is acceptable when there is a verification loop. The cash-register example: when you buy items at a shop, you delegate the addition to the till; when the total seems wrong, you ask to check the prices. That is not surrender; it is amplification with a smell-test boundary.
+Cognitive offloading is acceptable when there is a verification loop. The cash-register example: when you buy items at a shop, you delegate the addition to the till; when the total seems wrong, you ask to check the prices. That is amplification with a smell-test boundary.
 
-The harness's job is to **make the verification loop cheap**:
+The harness's job is to make the verification loop cheap:
 
 - Surface uncertainty so the human's smell test has something to fire on
 - Expose tool outputs so verification doesn't require re-running the work

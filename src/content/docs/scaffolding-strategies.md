@@ -5,7 +5,7 @@ description: "Catalogue of strategies for improving small-model agent reliabilit
 
 # Scaffolding Strategies
 
-Scaffolding strategies are techniques applied around a language model to improve its reliability in agentic loops. They don't change the model — they change the environment the model operates in.
+Scaffolding strategies are techniques applied around a language model to improve its reliability in agentic loops. They don't change the model; they change the environment the model operates in.
 
 For frontier models, many of these strategies provide marginal gains. For small models, they can be the difference between a functional agent and a useless one.
 
@@ -21,13 +21,13 @@ For frontier models, many of these strategies provide marginal gains. For small 
 
 **Why it helps SLMs:** Autoregressive models generate left to right and can lose early context by the time they start generating. RE2 acts as a pseudo-bidirectional attention mechanism, forcing the model to re-attend to the original instruction without drastically inflating token count.
 
-**Agentic extension:** Apply RE2 not just at the single-turn level but at each step of the agent loop. Before each action, re-present the original goal and the current state. This directly combats goal drift.
+**Agentic extension:** Extend RE2 to each step of the agent loop. Before each action, re-present the original goal and the current state. This directly combats goal drift.
 
 ### Chain-of-Thought (CoT)
 
 **What it is:** Prompt the model to reason step by step before producing an answer or action.
 
-**Why it helps SLMs:** Explicit reasoning reduces the chance of the model jumping to a wrong conclusion. The intermediate steps serve as a form of working memory, keeping relevant context active during generation.
+**Why it helps SLMs:** Explicit reasoning reduces the chance of the model jumping to a wrong conclusion. The intermediate steps are a form of working memory, keeping relevant context active during generation.
 
 **Tradeoff:** CoT consumes tokens. In a constrained context window, the reasoning steps compete with history and state for space. The net benefit depends on whether the accuracy gain outweighs the context cost.
 
@@ -43,16 +43,16 @@ For frontier models, many of these strategies provide marginal gains. For small 
 
 ### Guided Decoding / Strict JSON Schema
 
-**What it is:** Use the inference engine's grammar enforcement (e.g., `llama.cpp` via Ollama) to physically constrain the model's output to a valid JSON schema. Invalid tokens are masked at the logit level — the model literally cannot produce them.
+**What it is:** Use the inference engine's grammar enforcement (e.g., `llama.cpp` via Ollama) to physically constrain the model's output to a valid JSON schema. Invalid tokens are masked at the logit level. The model literally cannot produce them.
 
 **Why it helps SLMs:** This is the strongest available mechanism against agentic drift. If the model can only output a valid tool call, it cannot hallucinate a conversational tangent, an unstructured response, or a malformed action.
 
-**Why structured output helps SLMs in general:** In free-form prose, every token is a wide-open prediction from the full vocabulary. In JSON, the prediction space collapses — structural tokens (`{`, `}`, `:`, `,`) are essentially free, so the model spends its limited capacity on content tokens. There is also a training data effect: SLMs have seen enormous amounts of well-formed JSON in code-heavy corpora, so their predictions within that structure are more confident.
+**Why structured output helps SLMs in general:** In free-form prose, every token is a wide-open prediction from the full vocabulary. In JSON, the prediction space collapses: structural tokens (`{`, `}`, `:`, `,`) are essentially free, so the model spends its limited capacity on content tokens. There is also a training data effect: SLMs have seen enormous amounts of well-formed JSON in code-heavy corpora, so their predictions within that structure are more confident.
 
 **SLM-specific rules:**
-1. **Temperature zero** — when you want structured data, you want zero creativity
-2. **Prompt reinforcement** — still instruct "Respond in JSON" even with schema enforcement
-3. **Keep schemas flat** — SLMs handle flat dictionaries well but struggle with deeply nested recursive structures
+1. Temperature zero: when you want structured data, you want zero creativity
+2. Prompt reinforcement: still instruct "Respond in JSON" even with schema enforcement
+3. Keep schemas flat: SLMs handle flat dictionaries well but struggle with deeply nested recursive structures
 
 ### Type-Safe Function Registries
 
@@ -96,13 +96,13 @@ For frontier models, many of these strategies provide marginal gains. For small 
 
 **What it is:** Limit the set of actions the agent can take. Instead of "do anything to improve this code," offer a menu: "choose one: add a docstring, rename a variable, extract a function, add error handling."
 
-**Why it helps SLMs:** Fewer choices means fewer ways to go wrong. A reliable agent with 5 possible actions beats an unreliable agent with 500. The model's job shifts from open-ended generation to selection from a defined set — a much easier task for small models.
+**Why it helps SLMs:** Fewer choices means fewer ways to go wrong. A reliable agent with 5 possible actions beats an unreliable agent with 500. The model's job shifts from open-ended generation to selection from a defined set, a much easier task for small models.
 
 ### SLM-Default, LLM-Fallback
 
 **What it is:** Use the local model for the majority of tasks. If the model fails a validation check or encounters ambiguity beyond its capability, escalate to a frontier model.
 
-**Why it helps:** Captures the cost and privacy benefits of local inference for the 80% of tasks that are routine, while maintaining quality on the 20% that are genuinely hard.
+**Why it helps:** This captures the cost and privacy benefits of local inference for the 80% of tasks that are routine, while maintaining quality on the 20% that are genuinely hard.
 
 **Open questions:** What triggers escalation? Can the threshold be learned? What's the cost profile of an 80/20 split vs 100% frontier?
 
@@ -122,7 +122,7 @@ For frontier models, many of these strategies provide marginal gains. For small 
 
 **What it is:** Set hard limits on loop iterations and detect repetitive actions.
 
-**Why it helps SLMs:** Prevents the model from burning cycles in a loop trap — repeating the same failing action indefinitely. Simple to implement, essential for unattended operation.
+**Why it helps SLMs:** Prevents the model from burning cycles in a loop trap, repeating the same failing action indefinitely. Simple to implement, essential for unattended operation.
 
 ---
 
@@ -130,10 +130,10 @@ For frontier models, many of these strategies provide marginal gains. For small 
 
 These strategies are not independent. Some combinations reinforce each other:
 
-- **Guided decoding + function registries** — the schema constrains shape; the registry constrains semantics
-- **Atomic tasking + constrained actions** — each micro-task has a small action space
-- **RE2 + human checkpoints** — re-reading maintains goal coherence between checkpoints
-- **Self-consistency voting + temperature > 0** — voting requires diverse samples, which requires non-zero temperature (in tension with the "temperature zero" rule for structured output)
+- Guided decoding + function registries: the schema constrains shape; the registry constrains semantics
+- Atomic tasking + constrained actions: each micro-task has a small action space
+- RE2 + human checkpoints: re-reading maintains goal coherence between checkpoints
+- Self-consistency voting + temperature > 0: voting requires diverse samples, which requires non-zero temperature (in tension with the "temperature zero" rule for structured output)
 
 Understanding these interactions is part of [Track C: Scaffolding Research](track-c-scaffolding).
 
@@ -141,6 +141,6 @@ Understanding these interactions is part of [Track C: Scaffolding Research](trac
 
 ## Further Reading
 
-- [Agentic Drift](agentic-drift) — the problems these strategies address
-- [Track C: Scaffolding Research](track-c-scaffolding) — systematic evaluation of strategy effectiveness
-- [Seed Ideas](seed-ideas) — raw discussion notes where many of these strategies were first captured
+- [Agentic Drift](agentic-drift): the problems these strategies address
+- [Track C: Scaffolding Research](track-c-scaffolding): systematic evaluation of strategy effectiveness
+- [Seed Ideas](seed-ideas): raw discussion notes where many of these strategies were first captured

@@ -5,7 +5,7 @@ description: "Porting Karpathy's autoresearch loop to a local small model."
 
 # Track A: Local Autoresearch
 
-The starting point. Port Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) loop to use a local small model as the agent brain. The training loop stays the same — the question is whether a 4B model can make productive research decisions.
+The starting point. Port Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) loop to use a local small model as the agent brain. The training loop stays the same. The question is whether a 4B model can make productive research decisions.
 
 ---
 
@@ -19,7 +19,7 @@ The autoresearch loop is the simplest possible agent:
 4. Check if it improved
 5. Repeat
 
-This constrained action space is deliberately chosen. It's small enough that a 4B model might handle it, and the evaluation is automatic — the metric either improved or it didn't. No subjective judgment, no human scoring. This makes it ideal for running many experiments quickly.
+This constrained action space is deliberately chosen. It's small enough that a 4B model might handle it, and the evaluation is automatic: the metric either improved or it didn't. There is no subjective judgment or human scoring. This makes it ideal for running many experiments quickly.
 
 ---
 
@@ -41,9 +41,9 @@ Every row after the first is free to run. This is the same LocoLLM advantage app
 
 ## What Success Looks Like
 
-The frontier model baseline will produce some number of improving iterations out of N attempts. Success for the local model is not necessarily matching that number — it's understanding the gap and what closes it.
+The frontier model baseline will produce some number of improving iterations out of N attempts. Success for the local model means understanding the gap and what closes it, even if it never matches that number.
 
-Key questions:
+Questions:
 
 - Does the local model ever produce a genuine improvement, or does it drift immediately?
 - Which scaffolding strategies most reduce the gap to the frontier baseline?
@@ -56,7 +56,7 @@ Even if the local model achieves 0% success on bare runs, that's a useful baseli
 
 ## Research Context
 
-Karpathy's autoresearch demonstrated that LLM agents can autonomously conduct ML research by modifying code, running experiments, and iterating on results. The key design insight: constrain the action space (one file, one metric, fixed time budget) to make the loop tractable.
+Karpathy's autoresearch demonstrated that LLM agents can autonomously conduct ML research by modifying code, running experiments, and iterating on results. The design insight: constrain the action space (one file, one metric, fixed time budget) to make the loop tractable.
 
 The original used frontier models. Nobody has published results from running the same loop with a sub-7B model.
 

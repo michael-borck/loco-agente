@@ -21,7 +21,7 @@ The implication: strategies that barely matter for single-turn quality can be cr
 
 ### Hallucination Amplification
 
-In single-turn use, a hallucination is a wrong answer. In an agent loop, a hallucination becomes an action — and that action changes the state the model observes on the next turn. The model is now reasoning about a world it corrupted.
+In single-turn use, a hallucination is a wrong answer. In an agent loop, a hallucination becomes an action, and that action changes the state the model observes on the next turn. The model is now reasoning about a world it corrupted.
 
 This is particularly dangerous when the model hallucinates successful outcomes. If the model "believes" its action worked when it didn't, it proceeds to the next step on a false foundation. Each subsequent step drifts further from reality.
 
@@ -41,12 +41,12 @@ The model gets stuck repeating an action that doesn't work but doesn't trigger a
 
 Frontier models resist drift because they have:
 
-- **Larger context windows** — the original goal stays in attention longer
-- **Stronger instruction following** — they maintain goal adherence across turns
-- **Better calibration** — they know when they don't know, reducing hallucinated actions
-- **More robust reasoning** — each step is more likely to be correct, so compounding is slower
+- Larger context windows: the original goal stays in attention longer
+- Stronger instruction following: they maintain goal adherence across turns
+- Better calibration: they know when they don't know, reducing hallucinated actions
+- More reliable reasoning: each step is more likely to be correct, so compounding is slower
 
-Small models lack all of these advantages. But the question LocoAgente asks is not "do small models drift less?" (they don't). The question is: **can scaffolding strategies reduce drift enough to make the loop viable?**
+Small models lack all of these advantages. LocoAgente asks whether scaffolding strategies can reduce drift enough to make the loop viable.
 
 ---
 
@@ -56,13 +56,13 @@ Each of these is studied in detail in [Scaffolding Strategies](scaffolding-strat
 
 | Strategy | What It Addresses |
 |----------|-------------------|
-| **RE2 (Re-Reading)** | Goal drift — forces the model to re-encode the original goal before each step |
-| **Guided decoding** | Hallucination — physically constrains output to valid tool calls |
-| **Atomic tasking** | Error compounding — fewer reasoning steps per agent invocation |
-| **Self-consistency voting** | Per-step accuracy — samples multiple proposals and picks the consensus |
-| **Constrained action space** | All of the above — fewer choices means fewer ways to go wrong |
-| **Human-in-the-loop checkpoints** | Drift detection — a human verifies state at key points |
-| **Temperature zero** | Hallucination — removes sampling randomness for deterministic output |
+| **RE2 (Re-Reading)** | Goal drift: forces the model to re-encode the original goal before each step |
+| **Guided decoding** | Hallucination: physically constrains output to valid tool calls |
+| **Atomic tasking** | Error compounding: fewer reasoning steps per agent invocation |
+| **Self-consistency voting** | Per-step accuracy: samples multiple proposals and picks the consensus |
+| **Constrained action space** | All of the above: fewer choices means fewer ways to go wrong |
+| **Human-in-the-loop checkpoints** | Drift detection: a human verifies state at set checkpoints |
+| **Temperature zero** | Hallucination: removes sampling randomness for deterministic output |
 
 The research question is which combinations of these strategies produce the best reliability gains for the lowest complexity cost.
 
@@ -72,11 +72,11 @@ The research question is which combinations of these strategies produce the best
 
 LocoAgente measures drift across several dimensions:
 
-- **Goal coherence** — is the agent still pursuing the original objective after N turns?
-- **Action validity** — are the agent's tool calls syntactically and semantically correct?
-- **State accuracy** — does the agent's implicit model of the world match reality?
-- **Loop detection** — is the agent repeating actions without progress?
-- **Steps to failure** — how many successful steps before the first error?
+- Goal coherence: is the agent still pursuing the original objective after N turns?
+- Action validity: are the agent's tool calls syntactically and semantically correct?
+- State accuracy: does the agent's implicit model of the world match reality?
+- Loop detection: is the agent repeating actions without progress?
+- Steps to failure: how many successful steps before the first error?
 
 These metrics are tracked per-experiment and compared across scaffolding strategies and frameworks.
 
@@ -84,6 +84,6 @@ These metrics are tracked per-experiment and compared across scaffolding strateg
 
 ## Further Reading
 
-- [What Are Agents?](what-are-agents) — background on the agent loop
-- [Scaffolding Strategies](scaffolding-strategies) — techniques for reducing drift
-- [Track C: Scaffolding Research](track-c-scaffolding) — the systematic study of what works
+- [What Are Agents?](what-are-agents): background on the agent loop
+- [Scaffolding Strategies](scaffolding-strategies): techniques for reducing drift
+- [Track C: Scaffolding Research](track-c-scaffolding): the systematic study of what works

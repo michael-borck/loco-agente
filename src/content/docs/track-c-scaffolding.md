@@ -5,7 +5,7 @@ description: "Systematic study of which scaffolding strategies most improve smal
 
 # Track C: Scaffolding Research
 
-The systematic study of what scaffolding strategies most improve small-model agent reliability. This is the most publishable track — it produces general findings about SLM agent design that apply beyond any single task domain.
+The systematic study of what scaffolding strategies most improve small-model agent reliability. This is the most publishable track: it produces general findings about SLM agent design that apply beyond any single task domain.
 
 ---
 
@@ -13,9 +13,9 @@ The systematic study of what scaffolding strategies most improve small-model age
 
 1. Which individual scaffolding strategies produce the largest per-step accuracy gains for SLM agents?
 2. Do strategy gains compound (RE2 + voting > RE2 alone + voting alone)?
-3. Are there diminishing returns — a point where adding more scaffolding stops helping?
+3. Are there diminishing returns, a point where adding more scaffolding stops helping?
 4. Do strategies interact negatively (e.g., CoT consumes context needed for voting)?
-5. Is there a minimal effective set — the fewest strategies that capture most of the reliability gain?
+5. Is there a minimal effective set, the fewest strategies that capture most of the reliability gain?
 
 ---
 
@@ -57,7 +57,7 @@ For detailed descriptions of each strategy see [Scaffolding Strategies](scaffold
 
 ## Evaluation Method
 
-Each strategy (and combination) is tested against the same agent task using the same model, hardware, and evaluation harness. Variables are isolated — one change at a time unless testing interactions.
+Each strategy (and combination) is tested against the same agent task using the same model, hardware, and evaluation harness. Variables are isolated: one change at a time unless testing interactions.
 
 **Metrics:**
 - Per-step accuracy (did this step produce the right action?)
@@ -76,10 +76,10 @@ Each strategy (and combination) is tested against the same agent task using the 
 
 The scaffolding strategies tested here are the same strategies humans use when delegating to junior team members:
 
-- **Constrained choices** → "here are three options, pick one" rather than "do whatever you think is best"
-- **Verification checkpoints** → "show me your work before moving on"
-- **Iterative refinement** → "try it, and if it doesn't work, try something else"
-- **Explicit reasoning** → "explain your thinking before you act"
+- Constrained choices: "here are three options, pick one" instead of "do whatever you think is best"
+- Verification checkpoints: "show me your work before moving on"
+- Iterative refinement: "try it, and if it doesn't work, try something else"
+- Explicit reasoning: "explain your thinking before you act"
 
 The CST framework predicts these should transfer to AI agents for the same structural reasons they work with humans. LocoAgente is an empirical test of that prediction.
 
@@ -87,7 +87,7 @@ The CST framework predicts these should transfer to AI agents for the same struc
 
 ## Dependencies
 
-Can start alongside Track A — uses the autoresearch task as the initial test harness. As Track B adds new task domains, scaffolding experiments extend to those domains for cross-task validation.
+Can start alongside Track A, using the autoresearch task as the initial test harness. As Track B adds new task domains, scaffolding experiments extend to those domains for cross-task validation.
 
 ---
 

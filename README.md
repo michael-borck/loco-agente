@@ -8,14 +8,14 @@
 
 > *"Frontier models win on precision. Small local models, properly harnessed, can win on variance, and variance is what creativity needs."*
 
-LocoAgente is a research project building a **conversational harness** for small local models: a four-subsystem architecture (Orchestration / Context / Tools / Inference) that amplifies human thinking through verified offloading rather than substituting for it.
+LocoAgente is a research project building a conversational harness for small local models: a four-subsystem architecture (Orchestration / Context / Tools / Inference) that amplifies human thinking through verified offloading without substituting for it.
 
-The harness's foundational primitive: **always produce N alternatives with rationale and surfaced uncertainty.** Singular outputs are forbidden at the primitive level. Variance is engineered, not hoped for.
+The harness's foundational primitive: always produce N alternatives with rationale and surfaced uncertainty. Singular outputs are forbidden at the primitive level. The harness engineers variance.
 
 ## The three load-bearing principles
 
 1. **Creativity does not need precision; it needs ideas.** Stop trying to make small models precise; channel their variance.
-2. **Conversation, not delegation, but verified offloading is fine.** The harness makes the verification loop cheap.
+2. **Conversation beats delegation; verified offloading is fine.** The harness makes the verification loop cheap.
 3. **Confidence is not competence.** Surface uncertainty as a first-class signal.
 
 See [`docs/philosophy/`](docs/philosophy/) for the full statements.
@@ -52,21 +52,21 @@ See [`docs/architecture/four-subsystems.md`](docs/architecture/four-subsystems.m
 
 - **loco-llm**: provides base model + adapters; the harness consumes them
 - **loco-banco**: answers "which inference engine + model fits my VRAM tier"
-- **loco-musa**: measures thinking-partner quality of *raw* models — musa tells you which base model is worth harnessing, and whether the harness is actually adding thinking-partner quality
+- **loco-musa**: measures thinking-partner quality of *raw* models. Musa tells you which base model is worth harnessing, and whether the harness adds thinking-partner quality
 - **loco-puente**: deployment substrate (if/when the harness gets a web UI)
 
 ### Measurement boundary
 
 Banco measures raw model *precision*; musa measures raw model *collaboration*.
-Anything where the harness itself is part of the treatment — orchestration
-patterns, verification loops, scaffolded vs unscaffolded — is measured here, in
+Anything where the harness itself is part of the treatment (orchestration
+patterns, verification loops, scaffolded vs unscaffolded) is measured here, in
 agente's own framework-eval track (see `docs/`, Track D). The instruments are
 sharable (musa's pairwise judge, banco's deterministic checks); the claims are
 kept separate: musa never scores a harnessed model, agente never claims a raw
 model result.
 
 Parked benchmark idea (execution, not conversation): "build a playable game
-from a spec — pass if it runs, judged on the gap between spec and result."
+from a spec, pass if it runs, judged on the gap between spec and result."
 That would measure harness+model combos end to end; noted for Track D.
 
 ## License

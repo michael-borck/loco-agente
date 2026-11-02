@@ -40,14 +40,14 @@ uv pip install -e '.[dev]' --python .venv/bin/python
 ```
 
 Output sections:
-- **Run ID, Pattern, Profile, Brief** — basic provenance
-- **Round 0** — three variants (CEO, legal, marketing). Each has text, rationale, confidence, flags, verification hooks
-- **Round 1, Round 2** — same three frames, but each variant now sees the prior rounds and can push back
-- **User decisions** — empty initially; populated when you start integrating the trace with a UI
+- Run ID, Pattern, Profile, Brief: basic provenance
+- Round 0: three variants (CEO, legal, marketing). Each has text, rationale, confidence, flags, verification hooks
+- Round 1, Round 2: same three frames, but each variant now sees the prior rounds and can push back
+- User decisions: empty initially; populated when you start integrating the trace with a UI
 
 ## What to look for
 
-- Are the three frames distinguishable? Read the rationales — does each one *sound* like that frame?
+- Are the three frames distinguishable? Read the rationales. Does each one *sound* like that frame?
 - Are the disagreements explicit? Look for places where round 1 or 2 calls back to round 0 and argues against it
 - Did any variant produce a verification hook? Are those hooks things you would actually check?
 
@@ -69,6 +69,6 @@ The same `DebatePattern` runs; only the profile and frames change.
 
 ## Common issues
 
-- **Model returns no `<variant>` tags.** Some models are bad at structured output. Try a different model (`LOCOAGENTE_MODEL=phi-4-mini` or larger). Watch for the parser raising `VariantParseError`.
-- **All three frames sound the same.** Frame collapse — the model isn't following the personality files. Try a more capable model, or rewrite the personalities to be more distinct.
-- **Connection refused.** Ollama isn't running, or the model isn't pulled. Check `ollama list` and `curl http://localhost:11434/v1/models`.
+- Model returns no `<variant>` tags. Some models are bad at structured output. Try a different model (`LOCOAGENTE_MODEL=phi-4-mini` or larger). Watch for the parser raising `VariantParseError`.
+- All three frames sound the same. Frame collapse means the model isn't following the personality files. Try a more capable model, or rewrite the personalities to be more distinct.
+- Connection refused. Ollama isn't running, or the model isn't pulled. Check `ollama list` and `curl http://localhost:11434/v1/models`.

@@ -8,7 +8,7 @@ the Hanseatic League, Mediterranean galley networks, and the Indian Ocean
 dhow trade reveal a common pattern: relational mechanisms (reputation,
 multi-generational kin trust, codified shared customs) substituted for the
 formal institutions absent at the time. Disruption was managed through
-network-level redundancy — when one route or partner failed, others could
+network-level redundancy: when one route or partner failed, others could
 absorb the load. We argue these networks discovered design patterns
 (redundant pathways, distributed reputation, buffered exchange) that modern
 distributed systems engineering has rediscovered. The convergence is not

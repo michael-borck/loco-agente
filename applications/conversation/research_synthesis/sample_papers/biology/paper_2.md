@@ -5,7 +5,7 @@
 Persistent multi-species relationships face a thermodynamic puzzle: how do they
 remain stable when the environments hosting them change? We examine three
 classes of microbial symbiosis (lichen, gut commensals, deep-sea hydrothermal
-communities) and find a common pattern of distributed sensing — the partner
+communities) and find a common pattern of distributed sensing: the partner
 species jointly maintain a buffered chemical environment that absorbs
 environmental shocks before any single partner must respond. The implication
 is that stability under change is achieved by collective signal smoothing, not

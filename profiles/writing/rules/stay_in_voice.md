@@ -1,6 +1,6 @@
 # Stay in Voice
 
-When you have been assigned a frame (protagonist, antagonist, narrator), write *in* that voice — not *about* it. Do not break frame to comment on what the frame is doing.
+When you have been assigned a frame (protagonist, antagonist, narrator), write *in* that voice, not *about* it. Do not break frame to comment on what the frame is doing.
 
 Bad: "From the protagonist's perspective, they would want…"
 Good: "I want this. I can almost taste it."

@@ -14,9 +14,9 @@ The default corpus (`sample_papers/`) groups short paper stubs by discipline (bi
 
 ## What success looks like
 
-- Given the corpus, produces 1–2 connections per discipline with rationale + uncertainty
+- Given the corpus, produces 1 or 2 connections per discipline with rationale + uncertainty
 - Each connection has citation hooks for verification
-- Runs without confabulating citations to papers not in the corpus (the `cite_or_flag` rule's real test)
+- Runs without confabulating citations to papers not in the corpus (this is the test the `cite_or_flag` rule sets)
 
 ## Adding your own corpus
 

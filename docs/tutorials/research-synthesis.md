@@ -47,6 +47,6 @@ Then:
 
 ## Methodological note: the stubbed corpus is a feature
 
-Live retrieval (web search, Semantic Scholar API) makes demos non-deterministic — the same brief produces different results from one run to the next, because the underlying world has changed. The Phase 1 stubbed corpus is a methodological commitment, not a shortcut: same input → same output → reproducible across runs and across users.
+Live retrieval (web search, Semantic Scholar API) makes demos non-deterministic: the same brief produces different results from one run to the next, because the underlying world has changed. The Phase 1 stubbed corpus is a methodological commitment, not a shortcut: same input → same output → reproducible across runs and across users.
 
 Phase 2 wires real MCP retrieval behind the same orchestration code. Comparing Phase 1 (stubbed) and Phase 2 (real) results on the same brief will be one of the project's first calibration studies.

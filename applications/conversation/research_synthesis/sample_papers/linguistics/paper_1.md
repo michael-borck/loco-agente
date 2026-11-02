@@ -8,7 +8,7 @@ analyse three forms of linguistic redundancy that contribute to this
 robustness: phonological (multiple cues per phoneme), morphological
 (grammatical agreement signalling the same information twice), and pragmatic
 (context filling in dropped or mis-heard tokens). The three forms appear to
-trade off — languages that are phonologically richer tend to have lower
+trade off: languages that are phonologically richer tend to have lower
 morphological redundancy, and vice versa. We propose this is a structural
 feature of how communication systems balance reliability against
 transmission cost.

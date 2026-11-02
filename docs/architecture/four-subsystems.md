@@ -16,7 +16,7 @@ INFERENCE      — OpenAI-compatible HTTP backend
                   (Ollama default; loco-banco specifies which engine)
 ```
 
-The four subsystems are not equally novel. **Orchestration and Context are where the project's research contribution lives.** Tools is "adopt MCP, don't reinvent." Inference is already covered by loco-banco (which engine to pick) and loco-puente (deployment).
+The four subsystems carry different weight. Orchestration and Context are where the project's research contribution lives. Tools is "adopt MCP, don't reinvent." Inference is already covered by loco-banco (which engine to pick) and loco-puente (deployment).
 
 ## Orchestration
 
@@ -29,7 +29,7 @@ Each pattern implements `OrchestrationPattern` and produces a `Conversation` tra
 | `SynthesisPattern` | N source-grounded variants → dedup → attribute | Research Synthesis |
 | `IterativeRefinement` | Variants → critique → re-variant with feedback | research-track use |
 
-New patterns are first-class extension points — students can implement a new one in a few hundred lines.
+New patterns are first-class extension points. Students can implement a new one in a few hundred lines.
 
 ## Context
 
@@ -43,11 +43,11 @@ profiles/<profile_name>/
 └── tools/               # available MCP tool specs as markdown
 ```
 
-No mega-system-prompt strings are permitted in code.
+The code does not use mega-system-prompt strings.
 
 ## Tools
 
-Phase 1: stub MCP client. Phase 2: real MCP servers wired in. The harness never knows whether a `search_corpus` tool is RAG-backed, BM25, full-text scan, or human typing — it just sees the tool's input/output contract.
+Phase 1: stub MCP client. Phase 2: real MCP servers wired in. The harness never knows whether a `search_corpus` tool is RAG-backed, BM25, full-text scan, or human typing. It just sees the tool's input/output contract.
 
 If MCP is replaced by a successor protocol, the Tools subsystem is the only place the harness needs to change. The other three are unaffected.
 
