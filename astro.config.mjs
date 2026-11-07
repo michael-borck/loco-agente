@@ -1,69 +1,50 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { loco } from '@locolabo/theme';
 
 export default defineConfig({
   site: 'https://locoagente.org',
   integrations: [
-    starlight({
-      title: 'LocoAgente',
-      description: 'Can Small Models Think in Loops?',
-      favicon: '/robot.svg',
-      disable404Route: true,
-      logo: {
-        alt: 'LocoAgente',
-        src: './src/assets/robot.svg',
-        replacesTitle: false,
-      },
-      social: [
-        { icon: 'external', label: 'Home', href: 'https://locoagente.org' },
-        { icon: 'external', label: 'LocoLabo', href: 'https://locolabo.org' },
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/michael-borck/loco-agente' },
-      ],
-      customCss: ['./src/styles/custom.css'],
-      sidebar: [
-        {
-          label: 'Background',
-          items: [
-            { label: 'Why LocoAgente', slug: 'why-locoagente' },
-            { label: 'What Are Agents?', slug: 'what-are-agents' },
-            { label: 'Agentic Drift', slug: 'agentic-drift' },
-            { label: 'Scaffolding Strategies', slug: 'scaffolding-strategies' },
-          ],
+    starlight(
+      loco({
+        project: 'loco-agente',
+        title: 'LocoAgente',
+        description: 'Can Small Models Think in Loops?',
+        home: 'https://locoagente.org',
+        github: 'loco-agente',
+        accent: { low: '#021a1e', main: '#06b6d4', high: '#a5f3fc' },
+        favicon: '/robot.svg',
+        logo: {
+          alt: 'LocoAgente',
+          src: './src/assets/robot.svg',
+          replacesTitle: false,
         },
-        {
-          label: 'Research',
-          items: [
-            { label: 'Research Plan', slug: 'research-plan' },
-            { label: 'Track A: Autoresearch', slug: 'track-a-autoresearch' },
-            { label: 'Track B: Task Agents', slug: 'track-b-task-agents' },
-            { label: 'Track C: Scaffolding', slug: 'track-c-scaffolding' },
-            { label: 'Track D: Framework Eval', slug: 'track-d-framework-eval' },
-          ],
-        },
-        {
-          label: 'Reference',
-          items: [
-            { label: 'Future Work', slug: 'future-work' },
-          ],
-        },
-        {
-          label: 'LocoLabo Projects',
-          items: [
-            { label: 'All Projects', link: 'https://locolabo.org/projects/' },
-            { label: 'LocoLabo', link: 'https://locolabo.org' },
-            { label: 'LocoLLM', link: 'https://locollm.org' },
-            { label: 'LocoBanco', link: 'https://locobanco.org' },
-            { label: 'LocoBench Picker', link: 'https://picker.locobanco.org' },
-            { label: 'LocoFósil', link: 'https://locofosil.org' },
-            { label: 'LocoMusa', link: 'https://locomusa.org' },
-            { label: 'LocoConvoy', link: 'https://lococonvoy.org' },
-            { label: 'LocoPuente', link: 'https://locopuente.org' },
-            { label: 'LocoEnsayo', link: 'https://locoensayo.org' },
-            { label: 'LocoNotas', link: 'https://loconotas.org' },
-            { label: 'LocoBase', link: 'https://github.com/michael-borck/loco-base' },
-          ],
-        },
-      ],
-    }),
+        sidebar: [
+          {
+            label: 'Background',
+            items: [
+              { label: 'Why LocoAgente', slug: 'why-locoagente' },
+              { label: 'What Are Agents?', slug: 'what-are-agents' },
+              { label: 'Agentic Drift', slug: 'agentic-drift' },
+              { label: 'Scaffolding Strategies', slug: 'scaffolding-strategies' },
+            ],
+          },
+          {
+            label: 'Research',
+            items: [
+              { label: 'Research Plan', slug: 'research-plan' },
+              { label: 'Track A: Autoresearch', slug: 'track-a-autoresearch' },
+              { label: 'Track B: Task Agents', slug: 'track-b-task-agents' },
+              { label: 'Track C: Scaffolding', slug: 'track-c-scaffolding' },
+              { label: 'Track D: Framework Eval', slug: 'track-d-framework-eval' },
+            ],
+          },
+          {
+            label: 'Reference',
+            items: [{ label: 'Future Work', slug: 'future-work' }],
+          },
+        ],
+      })
+    ),
   ],
 });
