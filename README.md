@@ -4,6 +4,8 @@
 [![agentic](https://img.shields.io/badge/-agentic-blue?style=flat-square)](https://github.com/topics/agentic) [![consumer-hardware](https://img.shields.io/badge/-consumer--hardware-blue?style=flat-square)](https://github.com/topics/consumer-hardware) [![framework-evaluation](https://img.shields.io/badge/-framework--evaluation-blue?style=flat-square)](https://github.com/topics/framework-evaluation) [![language-model](https://img.shields.io/badge/-language--model-blue?style=flat-square)](https://github.com/topics/language-model) [![python](https://img.shields.io/badge/-python-3776ab?style=flat-square)](https://github.com/topics/python) [![research](https://img.shields.io/badge/-research-blue?style=flat-square)](https://github.com/topics/research) [![scaffolding](https://img.shields.io/badge/-scaffolding-blue?style=flat-square)](https://github.com/topics/scaffolding)
 <!-- BADGES:END -->
 
+**Live site:** [locoagente.org](https://locoagente.org)
+
 ### Local Conversational Harness: Small Models as Thinking Partners, Not Substitutes
 
 > *"Frontier models win on precision. Small local models, properly harnessed, can win on variance, and variance is what creativity needs."*
