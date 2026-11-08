@@ -13,10 +13,9 @@ export default defineConfig({
         home: 'https://locoagente.org',
         github: 'loco-agente',
         accent: { low: '#021a1e', main: '#06b6d4', high: '#a5f3fc' },
-        favicon: '/robot.svg',
         logo: {
           alt: 'LocoAgente',
-          src: './src/assets/robot.svg',
+          src: './src/assets/art/icon.png',
           replacesTitle: false,
         },
         sidebar: [
